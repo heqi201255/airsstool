@@ -1,6 +1,6 @@
 <p align="center">
   <img src="assets/airsstool_logo.png" alt="airsstool logo" width="100" style="vertical-align: middle;">
-  <span style="font-size: 2.5em; font-weight: bold; vertical-align: middle; margin-left: 15px;">airsstool</span>
+  <h1 style="display: inline; vertical-align: middle; margin-left: 15px;">airsstool</h1>
 </p>
 
 <p align="center">
@@ -195,6 +195,16 @@ Replace `routes_data/rsshub-routes.json` with your own data:
 3. Run `python process_rsshub_data.py` to rebuild the database
 
 The `routes_data/rsshub_routes_with_heat_badges.html` file is a div section copied from [RSSHub's website HTML](https://docs.rsshub.app/routes/) to add heat information to websites.
+
+## 🤖 For OpenClaw Users
+
+If you're using [OpenClaw](https://github.com/openclaw/openclaw), the `SKILL.md` file in this repository provides instructions for the OpenClaw agent to use airsstool. The agent will automatically read this file and learn how to:
+
+- Install and configure airsstool
+- Use CLI commands to discover and fetch RSS feeds
+- Handle errors and troubleshooting
+
+Simply point your OpenClaw configuration to this repository's SKILL.md file. The skill will be uploaded to ClawHub soon.
 
 ## 📄 License
 
