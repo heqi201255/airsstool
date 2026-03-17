@@ -1,11 +1,10 @@
-<p align="center">
-  <img src="assets/airsstool_logo.png" alt="airsstool logo" width="100" style="vertical-align: middle;">
-  <h1 style="display: inline; vertical-align: middle; margin-left: 15px;">airsstool</h1>
-</p>
+<div align="center">
+  <img src="assets/airsstool_logo.png" alt="airsstool logo" width="200">
+  <h1>airsstool</h1>
+  <p>Give your AI agent the ability to efficiently browse the web and read RSS feeds.</p>
+</div>
 
-<p align="center">
-  <strong>Give your AI agent the ability to efficiently browse the web and read RSS feeds.</strong>
-</p>
+---
 
 <p align="center">
   A RSSHub CLI tool and MCP server that enables AI agents to discover and fetch RSS feeds from 1500+ websites - GitHub trending, YouTube channels, Reddit threads, news sites, and more.
