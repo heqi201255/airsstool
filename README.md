@@ -30,7 +30,7 @@
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/airsstool.git
+git clone https://github.com/heqi201255/airsstool.git
 cd airsstool
 
 # Install dependencies
