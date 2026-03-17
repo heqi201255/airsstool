@@ -2,6 +2,7 @@
   <img src="assets/airsstool_logo.png" alt="airsstool logo" width="200">
   <h1>airsstool</h1>
   <p>Give your AI agent the ability to efficiently browse the web and read RSS feeds.</p>
+  <p>Please give this repo a 🌟star if you find it helpful</p>
 </div>
 
 ---
