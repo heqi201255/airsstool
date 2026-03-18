@@ -39,4 +39,4 @@ packages = ["airsstool"]
 package-dir = {"airsstool" = "."}
 
 [tool.setuptools.package-data]
-airsstool = ["routes_data/*"]
+airsstool = ["routes_heat_data/rsshub-routes-heat.json"]

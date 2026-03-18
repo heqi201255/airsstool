@@ -149,10 +149,17 @@ def cmd_init(args):
     create_database(db_path)
 
     # 导入数据
-    process_rsshub_data(db_path)
+    success = process_rsshub_data(db_path)
 
-    print("\nInitialization complete!")
-    print(f"Database location: {db_path}")
+    if success:
+        print("\nInitialization complete!")
+        print(f"Database location: {db_path}")
+    else:
+        print("\nInitialization failed!")
+        print("Could not load routes data. Make sure RSSHUB_URL is accessible or provide rsshub-routes.json manually.")
+        # 删除空的数据库
+        if os.path.exists(db_path):
+            os.remove(db_path)
 
 
 def main():

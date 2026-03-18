@@ -3,11 +3,26 @@ import re
 import sqlite3
 from collections import defaultdict
 import os
+import httpx
 
 # 文件路径
 SCRIPT_DIR = os.path.dirname(__file__)
-ROUTES_JSON_PATH = os.path.join(SCRIPT_DIR, 'routes_data/rsshub-routes.json')
-HTML_PATH = os.path.join(SCRIPT_DIR, 'routes_data/rsshub_routes_with_heat_badges.html')
+HEAT_DATA_DIR = os.path.join(SCRIPT_DIR, 'routes_heat_data')
+HEAT_JSON_PATH = os.path.join(HEAT_DATA_DIR, 'rsshub-routes-heat.json')
+
+# RSSHub URL (from environment or default)
+RSSHUB_URL = os.environ.get("RSSHUB_URL", "https://rsshub.app")
+
+
+def get_default_data_dir():
+    """获取默认数据目录路径 (~/.airsstool)"""
+    home_dir = os.path.expanduser('~')
+    return os.path.join(home_dir, '.airsstool')
+
+
+def get_routes_json_path():
+    """获取routes JSON的路径 (在~/.airsstool目录下)"""
+    return os.path.join(get_default_data_dir(), 'rsshub-routes.json')
 
 
 def get_default_db_path():
@@ -67,6 +82,49 @@ def parse_html_for_heat(html_path: str) -> dict:
     for name, heat_str in matches:
         heat_value = convert_heat_to_number(heat_str)
         website_heat[name] = heat_value
+
+    return website_heat
+
+
+def convert_heat_html_to_json(html_path: str, json_path: str = None) -> dict:
+    """
+    Utility function: Convert RSSHub's heat HTML file to JSON format.
+
+    Args:
+        html_path: Path to rsshub_routes_with_heat_badges.html
+        json_path: Optional output path for JSON file. If not provided,
+                   saves to same directory as html_path with .json extension.
+
+    Returns:
+        dict: Website heat data {website_name: heat_value}
+
+    Example:
+        convert_heat_html_to_json('rsshub_routes_with_heat_badges.html', 'heat.json')
+    """
+    if not os.path.exists(html_path):
+        print(f"Error: HTML file not found at {html_path}")
+        return {}
+
+    print(f"Parsing {html_path}...")
+    website_heat = parse_html_for_heat(html_path)
+    print(f"Found heat values for {len(website_heat)} websites")
+
+    # Determine output path
+    if json_path is None:
+        json_path = os.path.splitext(html_path)[0] + '.json'
+
+    # Save to JSON
+    with open(json_path, 'w', encoding='utf-8') as f:
+        json.dump(website_heat, f, ensure_ascii=False, indent=2)
+
+    print(f"Saved to {json_path}")
+
+    # Show file sizes
+    html_size = os.path.getsize(html_path) / 1024  # KB
+    json_size = os.path.getsize(json_path) / 1024  # KB
+    print(f"HTML size: {html_size:.1f} KB")
+    print(f"JSON size: {json_size:.1f} KB")
+    print(f"Size reduction: {(1 - json_size/html_size)*100:.1f}%")
 
     return website_heat
 
@@ -267,14 +325,50 @@ def process_rsshub_data(db_path: str = None):
     if db_path is None:
         db_path = get_default_db_path()
 
-    # 1. 加载routes字典
-    print("Loading rsshub-routes.json...")
-    with open(ROUTES_JSON_PATH, 'r', encoding='utf-8') as f:
-        routes = json.load(f)
+    # 确保数据目录存在
+    data_dir = get_default_data_dir()
+    if not os.path.exists(data_dir):
+        os.makedirs(data_dir)
 
-    # 2. 解析HTML获取热度值
-    print("Parsing HTML file for heat values...")
-    website_heat = parse_html_for_heat(HTML_PATH)
+    routes_json_path = get_routes_json_path()
+
+    # 1. 下载或加载routes JSON
+    routes = None
+    routes_downloaded = False
+
+    if os.path.exists(routes_json_path):
+        print(f"Loading existing routes from {routes_json_path}...")
+        with open(routes_json_path, 'r', encoding='utf-8') as f:
+            routes = json.load(f)
+    else:
+        # 尝试从RSSHub API下载
+        print(f"Downloading routes from {RSSHUB_URL}/api/namespace...")
+        try:
+            with httpx.Client(timeout=30.0, follow_redirects=True, trust_env=False) as client:
+                response = client.get(f"{RSSHUB_URL}/api/namespace")
+                response.raise_for_status()
+                routes = response.json()
+                routes_downloaded = True
+
+                # 保存到本地
+                with open(routes_json_path, 'w', encoding='utf-8') as f:
+                    json.dump(routes, f, ensure_ascii=False)
+                print(f"Saved routes to {routes_json_path}")
+        except Exception as e:
+            print(f"Error downloading routes: {e}")
+
+    if routes is None:
+        print("Error: Could not load routes data. Initialization failed.")
+        return False
+
+    # 2. 加载热度数据
+    website_heat = {}
+
+    if os.path.exists(HEAT_JSON_PATH):
+        print(f"Loading heat data from {HEAT_JSON_PATH}...")
+        with open(HEAT_JSON_PATH, 'r', encoding='utf-8') as f:
+            website_heat = json.load(f)
+
     print(f"Found heat values for {len(website_heat)} websites")
 
     # 3. 连接数据库
@@ -424,6 +518,13 @@ def process_rsshub_data(db_path: str = None):
     print(f"\nImport completed!")
     print(f"Total: {website_count} websites, {route_count} routes")
     print(f"Database: {db_path}")
+
+    # 清理：删除下载的routes JSON（如果是从网络下载的）
+    if routes_downloaded and os.path.exists(routes_json_path):
+        os.remove(routes_json_path)
+        print(f"Cleaned up temporary file: {routes_json_path}")
+
+    return True
 
 
 if __name__ == '__main__':

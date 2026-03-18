@@ -1,22 +1,22 @@
 ---
 name: airsstool
-description: Use this skill when the user wants to discover RSS feeds, fetch RSS content, manage RSS subscriptions, or search for RSSHub routes. This skill provides CLI commands to interact with RSSHub for AI agents.
+description: Use this skill when the user wants to get updates or content from websites and platforms like YouTube, GitHub, Instagram, Reddit, news sites, blogs, etc. This tool fetches the latest content without needing a browser.
 ---
 
-# airsstool - RSSHub CLI Tool for AI Agents
+# airsstool - Web Content Fetcher for AI Agents
 
-This skill helps AI agents discover and fetch RSS feeds through RSSHub using the `airsstool` CLI.
+This skill helps AI agents fetch updates and content from websites using the `airsstool` CLI.
 
 ## When to Use This Skill
 
 Use this skill when the user:
 
-- Wants to find RSS feeds from a specific website or platform
-- Asks about available RSSHub routes
-- Needs to fetch RSS content (news, blogs, videos, etc.)
-- Wants to manage RSS subscriptions
-- Mentions RSSHub, RSS feeds, or subscribing to content updates
-- Wants to track updates from platforms like GitHub, YouTube, Bilibili, Twitter/X, etc.
+- Wants to see the latest content from a website or platform (YouTube, GitHub, Instagram, Reddit, etc.)
+- Asks "What's new on..." or "Show me updates from..."
+- Wants to track trending content, news, blog posts, videos, etc.
+- Needs to monitor specific users, topics, or categories on platforms
+- Wants to set up recurring checks for content updates
+- Asks about what content/information can be fetched from a specific website
 
 ## Installation
 
@@ -65,16 +65,16 @@ After installation is complete and verified working, you may delete this install
 
 | Command | Purpose | Example Usage |
 |---------|---------|---------------|
-| `airsstool list categories` | List all RSS categories | "What RSS categories are available?" |
+| `airsstool list categories` | List all content categories | "What categories are available?" |
 | `airsstool list websites` | List websites by category | "Show me social media websites" |
-| `airsstool list routes <website>` | Find routes for a website | "What RSS routes does GitHub have?" |
-| `airsstool check <website> <route>` | Get route details & parameters | "How to use GitHub trending route?" |
+| `airsstool list routes <website>` | Find available feeds for a website | "What feeds does GitHub have?" |
+| `airsstool check <website> <route>` | Get feed details & parameters | "How to use GitHub trending?" |
 
 ### Fetch Commands
 
 | Command | Purpose | Example Usage |
 |---------|---------|---------------|
-| `airsstool fetch <path>` | Fetch RSS content | "Fetch GitHub trending feed" |
+| `airsstool fetch <path>` | Fetch content from a feed | "Get GitHub trending" |
 | `airsstool fetch -U <user> -S <sub>` | Fetch all feeds in a subscription | "Get all my tech news feeds" |
 
 ### Subscription Commands
@@ -89,7 +89,7 @@ After installation is complete and verified working, you may delete this install
 
 ## Common Workflows
 
-### Finding an RSS Feed
+### Finding a Feed
 
 1. **Browse by category** if you know the type:
    ```bash
@@ -99,16 +99,16 @@ After installation is complete and verified working, you may delete this install
 
 2. **Search by website name** (fuzzy search supported):
    ```bash
-   airsstool list routes github  # Returns all GitHub routes
+   airsstool list routes github  # Returns all GitHub feeds
    ```
 
-3. **Check route details** for parameters:
+3. **Check feed details** for parameters:
    ```bash
    airsstool check github trending
    # Shows path template: /github/trending/{params}
    ```
 
-### Fetching RSS Content
+### Fetching Content
 
 **Simple fetch:**
 ```bash
@@ -149,6 +149,15 @@ airsstool fetch -U your_name -S tech_news --limit 10
 ```
 
 ## Fetch Parameters
+
+### List Options
+
+| Option | Description |
+|--------|-------------|
+| `--category CAT` | Filter websites by category |
+| `--page-size N` | Number of results per page (default: 20) |
+| `--page-num N` | Page number (default: 1) |
+| `--enable-nsfw` | Include NSFW websites in results |
 
 ### Filter Options
 
