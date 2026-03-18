@@ -173,12 +173,14 @@ Or if using with Claude Code or other MCP clients, add to your MCP configuration
 | `list_rss_websites` | List websites with pagination and filtering |
 | `list_rss_routes` | List routes for a website (fuzzy search supported) |
 | `check_rss_route_detail` | Get detailed info about a route |
-| `fetch_rss` | Fetch and parse RSS content |
 | `list_users` | List all users |
 | `list_rss_subscription` | List user's subscription groups |
 | `list_rss_subscribed_paths` | List paths in a subscription |
 | `add_rss_subscription` | Create a new subscription group |
 | `subscribe_rss_path` | Add a path to subscription |
+| `unsubscribe_rss_subscription` | Delete a subscription group and all its paths |
+| `remove_rss_path` | Remove a specific path from subscription |
+| `fetch_rss` | Fetch and parse RSS content |
 | `fetch_rss_subscription` | Fetch all paths in a subscription |
 
 ## 📚 CLI Commands Reference
@@ -217,6 +219,8 @@ Options:
 ```bash
 airsstool add-subscription --user USER --subscription NAME
 airsstool subscribe --user USER --subscription NAME --path PATH --description DESC [--force]
+airsstool unsubscribe --user USER --subscription NAME
+airsstool remove-subscription --user USER --subscription NAME --path PATH
 ```
 
 ## 🤖 For OpenClaw Users

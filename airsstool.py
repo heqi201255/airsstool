@@ -32,6 +32,8 @@ from .airsstool_mcp import (
     list_rss_subscribed_paths,
     add_rss_subscription,
     subscribe_rss_path,
+    unsubscribe_rss_subscription,
+    remove_rss_path,
     fetch_rss_subscription,
 )
 
@@ -124,6 +126,16 @@ def cmd_subscribe(args):
 def cmd_add_subscription(args):
     """处理 add-subscription 子命令"""
     print(add_rss_subscription(args.user, args.subscription))
+
+
+def cmd_unsubscribe(args):
+    """处理 unsubscribe 子命令"""
+    print(unsubscribe_rss_subscription(args.user, args.subscription))
+
+
+def cmd_remove_subscription(args):
+    """处理 remove-subscription 子命令"""
+    print(remove_rss_path(args.user, args.subscription, args.path))
 
 
 def cmd_init(args):
@@ -385,6 +397,45 @@ Example:
     add_sub_parser.add_argument('-U', '--user', metavar='USER', required=True, help='User name')
     add_sub_parser.add_argument('-S', '--subscription', metavar='NAME', required=True, help='Subscription name')
     add_sub_parser.set_defaults(func=cmd_add_subscription)
+
+    # unsubscribe 子命令
+    unsubscribe_parser = subparsers.add_parser(
+        'unsubscribe',
+        help='Delete a subscription group',
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        description='''
+Delete a user's subscription group and all its paths.
+
+Usage:
+  airsstool unsubscribe --user <user> --subscription <name>
+
+Example:
+  airsstool unsubscribe --user alice --subscription tech_news
+        '''
+    )
+    unsubscribe_parser.add_argument('-U', '--user', metavar='USER', required=True, help='User name')
+    unsubscribe_parser.add_argument('-S', '--subscription', metavar='NAME', required=True, help='Subscription name')
+    unsubscribe_parser.set_defaults(func=cmd_unsubscribe)
+
+    # remove-subscription 子命令
+    remove_sub_parser = subparsers.add_parser(
+        'remove-subscription',
+        help='Remove a path from subscription',
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        description='''
+Remove a specific path from a user's subscription group.
+
+Usage:
+  airsstool remove-subscription --user <user> --subscription <name> --path <path>
+
+Example:
+  airsstool remove-subscription --user alice --subscription tech_news --path /github/trending/daily/javascript/en
+        '''
+    )
+    remove_sub_parser.add_argument('-U', '--user', metavar='USER', required=True, help='User name')
+    remove_sub_parser.add_argument('-S', '--subscription', metavar='NAME', required=True, help='Subscription name')
+    remove_sub_parser.add_argument('-P', '--path', metavar='PATH', required=True, help='RSS path to remove')
+    remove_sub_parser.set_defaults(func=cmd_remove_subscription)
 
     args = parser.parse_args()
 

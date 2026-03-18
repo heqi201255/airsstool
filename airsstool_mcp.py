@@ -844,6 +844,114 @@ def subscribe_rss_path(user: str, subscription_name: str, path_description: str,
 
 
 @mcp.tool()
+def unsubscribe_rss_subscription(user: str, subscription_name: str) -> str:
+    """
+    删除用户的整个订阅组，同时删除该订阅组下的所有路径。
+
+    Args:
+        user: 用户名称
+        subscription_name: 订阅组名称
+    """
+    # 验证参数
+    if not user or not user.strip():
+        return "Error: user name cannot be empty."
+    if not subscription_name or not subscription_name.strip():
+        return "Error: subscription name cannot be empty."
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    # 查找 subscription_id
+    cursor.execute('''
+        SELECT id FROM UserSubscription
+        WHERE user = ? AND subscription_name = ?
+    ''', (user, subscription_name))
+
+    result = cursor.fetchone()
+    if not result:
+        conn.close()
+        return f"Subscription '{subscription_name}' not found for user '{user}'."
+
+    subscription_id = result['id']
+
+    # 删除所有关联的路径
+    cursor.execute('DELETE FROM SubscribedPath WHERE subscription_id = ?', (subscription_id,))
+
+    # 删除订阅组
+    cursor.execute('DELETE FROM UserSubscription WHERE id = ?', (subscription_id,))
+
+    conn.commit()
+    conn.close()
+
+    return f"Successfully deleted subscription '{subscription_name}' and all its paths for user '{user}'."
+
+
+@mcp.tool()
+def remove_rss_path(user: str, subscription_name: str, path: str) -> str:
+    """
+    从用户的订阅组中删除指定路径。
+
+    Args:
+        user: 用户名称
+        subscription_name: 订阅组名称
+        path: 要删除的RSS路径
+    """
+    # 验证参数
+    if not user or not user.strip():
+        return "Error: user name cannot be empty."
+    if not subscription_name or not subscription_name.strip():
+        return "Error: subscription name cannot be empty."
+    if not path or not path.strip():
+        return "Error: path cannot be empty."
+
+    # 确保 path 以 / 开头
+    if not path.startswith('/'):
+        path = '/' + path
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    # 查找 subscription_id
+    cursor.execute('''
+        SELECT id FROM UserSubscription
+        WHERE user = ? AND subscription_name = ?
+    ''', (user, subscription_name))
+
+    result = cursor.fetchone()
+    if not result:
+        conn.close()
+        return f"Subscription '{subscription_name}' not found for user '{user}'."
+
+    subscription_id = result['id']
+
+    # 检查路径是否存在
+    cursor.execute('''
+        SELECT id FROM SubscribedPath
+        WHERE subscription_id = ? AND path = ?
+    ''', (subscription_id, path))
+
+    path_result = cursor.fetchone()
+    if not path_result:
+        conn.close()
+        return f"Path '{path}' not found in subscription '{subscription_name}' for user '{user}'."
+
+    # 删除路径
+    cursor.execute('DELETE FROM SubscribedPath WHERE id = ?', (path_result['id'],))
+
+    # 更新 route_count
+    cursor.execute('''
+        UPDATE UserSubscription
+        SET route_count = route_count - 1
+        WHERE id = ?
+    ''', (subscription_id,))
+
+    conn.commit()
+    conn.close()
+
+    return f"Successfully removed path '{path}' from subscription '{subscription_name}' for user '{user}'."
+
+
+@mcp.tool()
 def fetch_rss_subscription(
     user: str,
     subscription_name: str,

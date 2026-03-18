@@ -179,6 +179,8 @@ airsstool-mcp
 | `list_rss_subscribed_paths` | 列出订阅组中的路径 |
 | `add_rss_subscription` | 创建新的订阅组 |
 | `subscribe_rss_path` | 添加路径到订阅组 |
+| `unsubscribe_rss_subscription` | 删除订阅组及其所有路径 |
+| `remove_rss_path` | 从订阅组中删除指定路径 |
 | `fetch_rss_subscription` | 获取订阅组中所有路径的内容 |
 
 ## 📚 CLI 命令参考
@@ -217,6 +219,8 @@ Options:
 ```bash
 airsstool add-subscription --user USER --subscription NAME
 airsstool subscribe --user USER --subscription NAME --path PATH --description DESC [--force]
+airsstool unsubscribe --user USER --subscription NAME
+airsstool remove-subscription --user USER --subscription NAME --path PATH
 ```
 
 ## 🤖 OpenClaw 用户

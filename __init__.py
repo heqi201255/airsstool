@@ -9,6 +9,8 @@ from .airsstool_mcp import (
     list_rss_subscribed_paths,
     add_rss_subscription,
     subscribe_rss_path,
+    unsubscribe_rss_subscription,
+    remove_rss_path,
     fetch_rss_subscription,
 )
 from .airsstool import main
@@ -27,5 +29,7 @@ __all__ = [
     'list_rss_subscribed_paths',
     'add_rss_subscription',
     'subscribe_rss_path',
+    'unsubscribe_rss_subscription',
+    'remove_rss_path',
     'fetch_rss_subscription',
 ]
