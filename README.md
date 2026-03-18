@@ -5,6 +5,10 @@
   <p>Please give this repo a 🌟star if you find it helpful</p>
 </div>
 
+<p align="center">
+  <a href="README_zh.md">中文</a>
+</p>
+
 ---
 
 <p align="center">
@@ -60,6 +64,13 @@ airsstool bridges RSSHub with AI agents by providing:
 
 ```bash
 pip install airsstool
+```
+
+If you are on macOS and have Homebrew installed, you can also install via pipx (recommended for easier CLI access):
+
+```bash
+brew install pipx
+pipx install airsstool
 ```
 
 ### ⚙️ Configuration
