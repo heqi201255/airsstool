@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "airsstool"
-version = "1.0.0"
+version = "1.0.1"
 description = "RSSHub CLI Tool & MCP Server for AI Agents"
 readme = "README.md"
 license = {text = "MIT"}
@@ -34,13 +34,11 @@ dependencies = [
 airsstool = "airsstool:main"
 airsstool-mcp = "airsstool:mcp_main"
 
-[tool.setuptools.packages.find]
-where = ["."]
-include = ["*"]
-exclude = ["tests*"]
+[tool.setuptools]
+packages = ["airsstool"]
+
+[tool.setuptools.package-dir]
+airsstool = "."
 
 [tool.setuptools.package-data]
-"*" = ["routes_heat_data/rsshub-routes-heat.json"]
-
-[tool.setuptools.exclude-package-data]
-"*" = [".git*", ".DS_Store", "requirements.txt", "assets*"]
+airsstool = ["routes_heat_data/rsshub-routes-heat.json"]
