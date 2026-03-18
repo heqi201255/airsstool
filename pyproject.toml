@@ -34,9 +34,13 @@ dependencies = [
 airsstool = "airsstool:main"
 airsstool-mcp = "airsstool:mcp_main"
 
-[tool.setuptools]
-packages = ["airsstool"]
-package-dir = {"airsstool" = "."}
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["*"]
+exclude = ["tests*"]
 
 [tool.setuptools.package-data]
-airsstool = ["routes_heat_data/rsshub-routes-heat.json"]
+"*" = ["routes_heat_data/rsshub-routes-heat.json"]
+
+[tool.setuptools.exclude-package-data]
+"*" = [".git*", ".DS_Store", "requirements.txt", "assets*"]

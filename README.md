@@ -59,15 +59,7 @@ airsstool bridges RSSHub with AI agents by providing:
 ### 📦 Installation
 
 ```bash
-# Clone the repository
-git clone https://github.com/heqi201255/airsstool.git
-cd airsstool
-
-# Install dependencies
-pip install httpx mcp
-
-# (Recommended) Install as a package for global CLI access
-pip install .
+pip install airsstool
 ```
 
 ### ⚙️ Configuration
