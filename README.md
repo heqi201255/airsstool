@@ -218,13 +218,13 @@ airsstool subscribe --user USER --subscription NAME --path PATH --description DE
 
 ## 🤖 For OpenClaw Users
 
-If you're using [OpenClaw](https://github.com/openclaw/openclaw), the `SKILL.md` file in this repository provides instructions for the OpenClaw agent to use airsstool. The agent will automatically read this file and learn how to:
+The companion skill is available on ClawHub as **Site Feeds**. Install it with:
 
-- Install and configure airsstool
-- Use CLI commands to discover and fetch RSS feeds
-- Handle errors and troubleshooting
+```bash
+clawhub install site-feeds
+```
 
-Simply point your OpenClaw configuration to this repository's SKILL.md file. The skill will be uploaded to ClawHub soon.
+The skill enables OpenClaw agents to fetch updates and content from websites using airsstool.
 
 ## 📄 License
 

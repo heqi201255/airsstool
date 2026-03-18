@@ -1,9 +1,9 @@
 ---
-name: airsstool
+name: site-feeds
 description: Use this skill when the user wants to get updates or content from websites and platforms like YouTube, GitHub, Instagram, Reddit, news sites, blogs, etc. This tool fetches the latest content without needing a browser.
 ---
 
-# airsstool
+# Site Feeds
 
 This skill helps AI agents fetch updates and content from websites using the `airsstool` CLI.
 
