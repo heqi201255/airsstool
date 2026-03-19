@@ -1,7 +1,7 @@
 <div align="center">
   <img src="assets/airsstool_logo.png" alt="airsstool logo" width="150">
   <h1>airsstool</h1>
-  <p>Give your AI agent the ability to efficiently browse the web and fetch RSS feeds.</p>
+  <p>Bridging your AI agent with RSSHub for efficient real-time content fetching from 1500+ websites</p>
   <p>Please give this repo a 🌟star if you find it helpful</p>
 </div>
 

@@ -1,7 +1,7 @@
 <div align="center">
   <img src="assets/airsstool_logo.png" alt="airsstool logo" width="150">
   <h1>airsstool</h1>
-  <p>让你的 AI Agent 高效获取网站内容和 RSS 订阅</p>
+  <p>让你的 AI Agent 通过 RSSHub 高效获取 1500+ 网站的实时内容</p>
   <p>如果觉得有用，请给个 🌟star 支持一下</p>
 </div>
 
@@ -173,7 +173,6 @@ airsstool-mcp
 | `list_rss_websites` | 列出网站（支持分页和过滤） |
 | `list_rss_routes` | 列出网站的路由（支持模糊搜索） |
 | `check_rss_route_detail` | 获取路由详细信息 |
-| `fetch_rss` | 获取并解析 RSS 内容 |
 | `list_users` | 列出所有用户 |
 | `list_rss_subscription` | 列出用户的订阅组 |
 | `list_rss_subscribed_paths` | 列出订阅组中的路径 |
@@ -181,6 +180,7 @@ airsstool-mcp
 | `subscribe_rss_path` | 添加路径到订阅组 |
 | `unsubscribe_rss_subscription` | 删除订阅组及其所有路径 |
 | `remove_rss_path` | 从订阅组中删除指定路径 |
+| `fetch_rss` | 获取并解析 RSS 内容 |
 | `fetch_rss_subscription` | 获取订阅组中所有路径的内容 |
 
 ## 📚 CLI 命令参考
